@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "builds": [{ "src": "slack_integration/app.py", "use": "@vercel/python" }],
+  "routes": [{ "src": "/slack", "dest": "slack_integration/app.py" }]
+}
