@@ -1,21 +1,22 @@
-from flask import Flask, request
-from agent import main
+from flask import Flask, request, jsonify
+from agent import main  # This should have respond_to_query function
 
 app = Flask(__name__)
 
-@app.route('/slack', methods=['POST'])
-def slack_endpoint():
+@app.route('/ask', methods=['POST'])
+def ask_agent():
     """
-    This endpoint receives requests from Slack, extracts the text,
-    sends it to the AI agent, and returns the response.
+    This endpoint receives JSON data from frontend,
+    sends the 'message' to the AI agent, and returns response.
     """
-    data = request.form
-    text = data.get('text')
-    if text:
-        response = main.respond_to_query(text)
-        return response
-    else:
-        return "No text found in Slack request."
+    data = request.get_json()
+    message = data.get('message')
+
+    if not message:
+        return jsonify({"error": "No message provided"}), 400
+
+    response = main.respond_to_query(message)
+    return jsonify({"reply": response})
 
 if __name__ == '__main__':
     app.run(debug=True)
