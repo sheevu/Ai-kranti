@@ -1,5 +1,7 @@
 {
   "version": 2,
-  "builds": [{ "src": "slack_integration/app.py", "use": "@vercel/python" }],
-  "routes": [{ "src": "/ask", "dest": "slack_integration/app.py" }]
+  "builds": [
+    { "src": "api/ask.py", "use": "@vercel/python" }
+  ]
 }
+
